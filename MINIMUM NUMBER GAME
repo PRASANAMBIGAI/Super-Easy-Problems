@@ -1,0 +1,38 @@
+int removeMin(int* nums, int* numsSize) {
+    int minIndex = 0;
+    for (int i = 1; i < *numsSize; i++) {
+        if (nums[i] < nums[minIndex]) {
+            minIndex = i;
+        }
+    }
+    int minValue = nums[minIndex];
+    for (int i = minIndex; i < *numsSize - 1; i++) {
+        nums[i] = nums[i + 1];
+    }
+    (*numsSize)--;
+    return minValue;
+}
+
+int* numberGame(int* nums, int numsSize, int* returnSize) {
+    // Allocate memory for the result array
+    int* arr = (int*)malloc(numsSize * sizeof(int));
+    int arrIndex = 0;
+
+    // Loop until nums is empty
+    while (numsSize > 0) {
+        // Alice removes the minimum element
+        int aliceMin = removeMin(nums, &numsSize);
+        
+        // Bob removes the minimum element
+        int bobMin = removeMin(nums, &numsSize);
+        
+        // Bob appends his removed element first
+        arr[arrIndex++] = bobMin;
+        
+        // Alice appends her removed element
+        arr[arrIndex++] = aliceMin;
+    }
+
+    *returnSize = arrIndex;
+    return arr;
+}
