@@ -1,0 +1,23 @@
+int calPoints(char** operations, int operationsSize) {
+    int* scores = (int*)malloc(operationsSize * sizeof(int));
+    int scoresIndex = 0;
+    int sum = 0;
+
+    for (int i = 0; i < operationsSize; i++) {
+        if (strcmp(operations[i], "C") == 0) {
+            sum -= scores[--scoresIndex];
+        } else if (strcmp(operations[i], "D") == 0) {
+            scores[scoresIndex] = 2 * scores[scoresIndex - 1];
+            sum += scores[scoresIndex++];
+        } else if (strcmp(operations[i], "+") == 0) {
+            scores[scoresIndex] = scores[scoresIndex - 1] + scores[scoresIndex - 2];
+            sum += scores[scoresIndex++];
+        } else {
+            scores[scoresIndex] = atoi(operations[i]);
+            sum += scores[scoresIndex++];
+        }
+    }
+
+    free(scores);
+    return sum;
+}
